@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://djm7di1w5nbxs"]
+[gd_scene load_steps=16 format=3 uid="uid://djm7di1w5nbxs"]
 
 [ext_resource type="Material" uid="uid://dbp10317k61fb" path="res://new_procedural_sky_material.tres" id="1_glv2v"]
 [ext_resource type="Material" uid="uid://b22m1t410yham" path="res://herodarkblue.tres" id="1_uu6xs"]
@@ -32,6 +32,10 @@ reflected_light_source = 1
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_glv2v"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_r0du0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cm0pq"]
+
 [node name="Node" type="Node"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
@@ -61,9 +65,8 @@ surface_material_override/0 = ExtResource("1_uu6xs")
 transform = Transform3D(1, 0, 0, 0, 0.8660778, 0.4999093, 0, -0.4999093, 0.8660778, 0, 4.2765245, 0)
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6729798, 6.8965254, -11.090853)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8452625, 0)
 script = ExtResource("2_r0du0")
-jump_impulse = 50
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_uu6xs")
@@ -74,6 +77,15 @@ shape = SubResource("CapsuleShape3D_uu6xs")
 mesh = SubResource("CapsuleMesh_r0du0")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("1_uu6xs")
+
+[node name="TwistPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="PitchPivot" type="Marker3D" parent="Player/TwistPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/TwistPivot/PitchPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 3.5)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rxg2q")
@@ -93,8 +105,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.423293, -17.003143)
 visible = false
 mesh = SubResource("BoxMesh_j1beo")
 
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(0.99331445, 0, -0.11543993, 0, 1, 0, 0.11543993, 0, 0.99331445, 0, 3.5328069, 0)
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.425137, 1.6959951, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(0.9987068, 0.049362626, 0.012174718, -0.049609043, 0.9985513, 0.020843811, -0.011128195, -0.021420822, 0.99970853, 2.7142282, 7.991302, 4.933703)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("BoxShape3D_r0du0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+mesh = SubResource("BoxMesh_cm0pq")
+skeleton = NodePath("../../StaticBody3D2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7969017, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_r0du0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_cm0pq")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.108265, 1.9156802, 2.133979)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+shape = SubResource("BoxShape3D_r0du0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3"]
+mesh = SubResource("BoxMesh_cm0pq")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5703986, 2.9699314)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+shape = SubResource("BoxShape3D_r0du0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4"]
+mesh = SubResource("BoxMesh_cm0pq")

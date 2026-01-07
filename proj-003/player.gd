@@ -6,8 +6,16 @@ extends CharacterBody3D
 # the downward acceleration when in the air, in meters per second squared
 @export var fall_acceleration = 75
 
+var mouse_sensitivity := 0.001
+var twist_input := 0.0
+var pitch_input := 0.0
+
+
 # Vertical impulse applied to the character upon jumping in meters per second.
 @export var jump_impulse = 20
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 var target_velocity = Vector3.ZERO
 
@@ -48,3 +56,22 @@ func _physics_process(delta):
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+	$TwistPivot.rotate_y(twist_input)
+	
+	$TwistPivot/PitchPivot.rotate_x(pitch_input)
+	$TwistPivot/PitchPivot.rotation.x = clamp (
+		$TwistPivot/PitchPivot.rotation.x,
+		-0.5,
+		0.5
+	)
+	twist_input = 0.0
+	pitch_input = 0.0
+func _unhandled_input(event: InputEvent):
+	if event is InputEventMouseMotion:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			twist_input = - event.relative.x * mouse_sensitivity
+			pitch_input = - event.relative.y * mouse_sensitivity
