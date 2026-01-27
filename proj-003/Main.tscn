@@ -3,6 +3,9 @@
 [ext_resource type="Material" uid="uid://dbp10317k61fb" path="res://new_procedural_sky_material.tres" id="1_glv2v"]
 [ext_resource type="Material" uid="uid://b22m1t410yham" path="res://herodarkblue.tres" id="1_uu6xs"]
 [ext_resource type="Script" uid="uid://bm5c1amthwuf" path="res://player.gd" id="2_r0du0"]
+[ext_resource type="Material" uid="uid://bywn7rp18ce17" path="res://grndmtrl.tres" id="3_trn2v"]
+[ext_resource type="PackedScene" uid="uid://dbtpcnebp1n14" path="res://rotating_mob.tscn" id="5_3dxm6"]
+[ext_resource type="PackedScene" uid="uid://c6qp6joyc6ii8" path="res://real_mob_2.tscn" id="5_fos0i"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4wuil"]
 size = Vector3(60, 2, 60)
@@ -10,13 +13,9 @@ size = Vector3(60, 2, 60)
 [sub_resource type="BoxMesh" id="BoxMesh_r0du0"]
 size = Vector3(60, 2, 60)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rxg2q"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_cm0pq"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_0be51"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_j1beo"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uu6xs"]
+[sub_resource type="BoxMesh" id="BoxMesh_fos0i"]
 
 [sub_resource type="Sky" id="Sky_glv2v"]
 sky_material = ExtResource("1_glv2v")
@@ -30,61 +29,87 @@ reflected_light_source = 1
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_glv2v"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_r0du0"]
-
 [node name="Node" type="Node"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_4wuil")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+material_override = ExtResource("3_trn2v")
 mesh = SubResource("BoxMesh_r0du0")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3644166, 0.23724365, 0)
-physics_material_override = SubResource("PhysicsMaterial_rxg2q")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("BoxShape3D_0be51")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.423294, 0)
-mesh = SubResource("BoxMesh_j1beo")
-surface_material_override/0 = ExtResource("1_uu6xs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.8660778, 0.4999093, 0, -0.4999093, 0.8660778, 0, 4.2765245, 0)
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6729798, 6.8965254, -11.090853)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_mask = 6
 script = ExtResource("2_r0du0")
+speed = 20
+jump_impulse = 40
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = SubResource("CapsuleShape3D_uu6xs")
-
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.89495, 0.4461666, 0, -0.4461666, 0.89495, -1.6729798, 23.327099, 16.322393)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Player/Camera3D"]
-environment = SubResource("Environment_rxg2q")
-camera_attributes = SubResource("CameraAttributesPractical_glv2v")
+shape = SubResource("BoxShape3D_cm0pq")
 
 [node name="Pivot" type="Node3D" parent="Player"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Pivot"]
-mesh = SubResource("CapsuleMesh_r0du0")
+mesh = SubResource("BoxMesh_fos0i")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("1_uu6xs")
 
-[node name="RigidBody3D2" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4732323, 5.9122906)
-physics_material_override = SubResource("PhysicsMaterial_rxg2q")
+[node name="TwistPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
-shape = SubResource("BoxShape3D_0be51")
+[node name="PitchPivot" type="Marker3D" parent="Player/TwistPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.98480767, 0.17364816, 0, -0.17364816, 0.98480767, 0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.423293, -17.003143)
-mesh = SubResource("BoxMesh_j1beo")
+[node name="Camera3D" type="Camera3D" parent="Player/TwistPivot/PitchPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 3.5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rxg2q")
+camera_attributes = SubResource("CameraAttributesPractical_glv2v")
+
+[node name="Ground2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.872419, 0.4887581, 0, -0.4887581, 0.872419, 0, 0, 23.923244)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
+shape = SubResource("BoxShape3D_4wuil")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground2"]
+mesh = SubResource("BoxMesh_r0du0")
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 2.171
+autostart = true
+
+[node name="RotatingMob2" parent="." instance=ExtResource("5_3dxm6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="RotatingMob" parent="." instance=ExtResource("5_3dxm6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+visible = false
+collision_layer = 6
+collision_mask = 6
+
+[node name="mobs" type="Node" parent="."]
+
+[node name="RealMob2" parent="mobs" instance=ExtResource("5_fos0i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4)
+collision_layer = 6
+collision_mask = 6
+a = Vector3(0, 4, -4)
+b = Vector3(4, 4, -4)
+
+[node name="RealMob2" parent="." instance=ExtResource("5_fos0i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 0)
+collision_layer = 6
+collision_mask = 6
+a = Vector3(5, 5, 0)
+b = Vector3(5, 10, 0)

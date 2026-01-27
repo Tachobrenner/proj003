@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://8iexui4qgp8w"]
+
+[ext_resource type="Material" uid="uid://djlk2phxexci" path="res://mobdarkgreen.tres" id="1_dy6sc"]
+[ext_resource type="Script" uid="uid://qrq03cglshta" path="res://mob.gd" id="1_nokgg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jfba5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dy6sc"]
+
+[node name="Mob" type="CharacterBody3D"]
+script = ExtResource("1_nokgg")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("BoxMesh_jfba5")
+surface_material_override/0 = ExtResource("1_dy6sc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_dy6sc")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+aabb = AABB(-0.5318012, -0.5197226, -0.5217959, 1.0636024, 1.0394452, 1.0435919)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

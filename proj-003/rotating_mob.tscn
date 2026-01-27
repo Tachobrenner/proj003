@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbtpcnebp1n14"]
+
+[ext_resource type="Script" uid="uid://dpmn2w1dhs5og" path="res://animatable_body_3d.gd" id="1_fv8rr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_31jv2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n2cvg"]
+size = Vector3(3, 3, 3)
+
+[node name="RotatingMob" type="AnimatableBody3D"]
+script = ExtResource("1_fv8rr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 12, 0, 0)
+mesh = SubResource("BoxMesh_31jv2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+shape = SubResource("BoxShape3D_n2cvg")

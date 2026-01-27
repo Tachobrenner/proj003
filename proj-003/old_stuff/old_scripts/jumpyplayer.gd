@@ -9,6 +9,7 @@ extends CharacterBody3D
 var mouse_sensitivity := 0.001
 var twist_input := 0.0
 var pitch_input := 0.0
+var fall_acceleration_two = fall_acceleration
 
 
 # Vertical impulse applied to the character upon jumping in meters per second.
@@ -45,10 +46,14 @@ func _physics_process(delta):
 	# Ground Velocity
 	# target_velocity.x = direction.x * speed
 	# target_velocity.z = direction.z * speed
+	if global_position.y < -50.0:
+		fall_acceleration_two = -80
+	if global_position.y > -35.0:
+		fall_acceleration_two = fall_acceleration 
 	
 	# Vertical Velocity
 	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+		target_velocity.y = target_velocity.y - (fall_acceleration_two * delta)
 		
 	# Moving the Character
 	velocity = target_velocity + direction.x * $TwistPivot.basis.x * speed + direction.z * $TwistPivot.basis.z * speed

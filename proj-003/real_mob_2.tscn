@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6qp6joyc6ii8"]
+
+[ext_resource type="Script" uid="uid://dfmqgkctgrter" path="res://real_mob_2.gd" id="1_xfn01"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pueac"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xfn01"]
+size = Vector3(3, 3, 3)
+
+[node name="RealMob2" type="AnimatableBody3D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_xfn01")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("BoxMesh_pueac")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xfn01")
